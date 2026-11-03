@@ -1,0 +1,3 @@
+# The built frontend is generated: keep its bytes exactly as built (no line-ending
+# conversion on Windows checkouts), keep it out of diffs, and mark it generated.
+web/frontend/dist/** -text -diff linguist-generated=true

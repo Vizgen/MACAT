@@ -1,0 +1,19 @@
+# Conda environment for the backend (Python 3.11). Create with:
+#
+#     conda env create -f environment.yml
+#
+# Trimmed on 2026-10-27 to what the app uses. It used to be a full `conda env
+# export` of a development env, carrying ~130 packages nothing here imports (Jupyter,
+# Sphinx, Streamlit -- leftovers from STalign's own development environment) and
+# with them most of the Dependabot alerts. The pins live in requirements-web.txt,
+# so pip and conda installs cannot drift apart. No torch and no STalign: the
+# registration is numpy only (removed 2026-10-27). Python 3.11 because Pillow 13
+# requires it.
+name: macat
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - -r requirements-web.txt

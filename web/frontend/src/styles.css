@@ -1,0 +1,367 @@
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --blue: #1f6feb;
+  --cyan: #2dd4bf;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+.app { display: flex; height: 100vh; }
+.sidebar {
+  width: 320px;
+  flex: 0 0 320px;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 16px;
+  /* `scroll`, not `auto`: with `auto` the scrollbar appears and disappears as
+     the panel's content changes -- switching Global affine to Local correction,
+     or Depth 2 to Depth 4 -- and every control reflows by the scrollbar's width
+     each time. A permanently reserved gutter costs a few pixels once instead.
+     scrollbar-gutter is the modern spelling and is harmless where unsupported. */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  display: flex;
+  flex-direction: column;
+}
+.spacer { flex: 1 1 auto; min-height: 12px; }
+/* flex-shrink:0 is REQUIRED, not cosmetic: .sidebar is a flex column, and because
+   .seg sets overflow:hidden its automatic minimum size resolves to 0 (the flexbox
+   automatic minimum only applies to overflow:visible items). Without this, a
+   sidebar taller than the window gets its toggles squashed to their 1px borders
+   instead of scrolling -- the buttons vanish and become unclickable. */
+.seg {
+  display: flex; gap: 0; border: 1px solid var(--border); border-radius: 8px;
+  overflow: hidden; flex-shrink: 0;
+}
+.seg button {
+  flex: 1; border: none; border-radius: 0; background: #21262d; padding: 8px 6px;
+  font-size: 13px; color: var(--muted);
+}
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.active { background: var(--blue); color: #fff; }
+.seg button:hover { border-color: transparent; filter: brightness(1.1); }
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+.debug-panel { border: 1px dashed var(--border); border-radius: 8px; padding: 4px 10px 10px; margin-top: 8px; }
+
+.canvas-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+h1 { font-size: 16px; margin: 0 0 4px; }
+h2 { font-size: 13px; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; letter-spacing: .04em; }
+/* Results-step section titles. h3 had no rule at all, so the three headings
+   using it fell back to browser defaults; this pins that same appearance
+   (1.17em bold) and gives every section in the step one consistent heading.
+   h2 keeps the small uppercase label style used for sidebar panels. */
+h3 { font-size: 1.17em; font-weight: bold; color: var(--text); margin: 22px 0 4px; }
+
+/* Results-step SECTIONS, one tier above h3.
+   The step is three things -- what the alignment looks like, whether it holds
+   up, and what you take away -- and every heading on it used to be an h3, so
+   eight peers read as one flat list and the reader had to infer the grouping.
+   A section outranks its subsections by size and by a rule above it. h2 is the
+   correct element but carries the small uppercase sidebar-label style, so the
+   class overrides it rather than inventing a new tag. */
+.section-head { border-top: 1px solid var(--border); margin-top: 32px;
+                padding-top: 16px; }
+/* explicit, not :first-of-type -- that selector keys on an element's position
+   among its SIBLINGS, not on which .section-head comes first, so it would have
+   matched or missed depending on what markup happened to precede section 1 */
+.section-head.first { border-top: none; margin-top: 4px; padding-top: 0; }
+h2.section-title { font-size: 1.5em; font-weight: 700; color: var(--text);
+                   text-transform: none; letter-spacing: normal; margin: 0; }
+/* Results-step COLUMN WIDTHS. Two, and only two.
+   The step used to set a different ad-hoc maxWidth per block -- 620, 640, 660,
+   700, 900 -- so nothing lined up down the page and the right edge was ragged.
+
+   .col-wide  the interactive panels. Deliberately not full width: hovering one
+              locks page scroll (the canvas eats the wheel event so zooming does
+              not scroll the page), so the page needs a margin of plain
+              background the reader can put the cursor over to scroll normally.
+              4/5 of the page: wide enough that the panels carry the detail,
+              narrow enough to leave a scroll strip. The panels themselves
+              flex-grow, so widening the column widens them rather than adding
+              whitespace inside it.
+   .col-half  every table, figure and download block. Matches the width Region
+              composition already used, which is the reference the rest follows.
+
+   The min()/max() form keeps a usable floor on a narrow window while still
+   giving back the proportion on a wide one. */
+.col-wide { width: min(100%, max(760px, 80%)); }
+.col-half { width: min(100%, max(560px, 50%)); }
+
+/* the first subsection sits under its section title, not a paragraph away */
+.section-head + .titlerow > h3, .section-head + div > .titlerow > h3 { margin-top: 12px; }
+.row { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
+.muted { color: var(--muted); font-size: 12px; line-height: 1.5; }
+select, button {
+  font: inherit;
+  color: var(--text);
+  background: #21262d;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+button:hover { border-color: var(--blue); }
+/* `a.primary` as well as `button.primary`: a download is a link, not a button,
+   but it should look identical to one. Without the anchor selector it inherited
+   only the default link colour and read as blue text on a dark panel. */
+button.primary, a.primary {
+  background: var(--blue); border-color: var(--blue); color: white;
+}
+a.primary {
+  display: block; text-align: center; text-decoration: none;
+  font: inherit; border: 1px solid var(--blue); border-radius: 6px;
+  padding: 6px 10px; cursor: pointer;
+}
+button.primary:hover, a.primary:hover { filter: brightness(1.1); }
+a.primary:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.nudge { width: 30px; height: 30px; padding: 0; flex: 0 0 30px; font-size: 18px; line-height: 1; }
+.provenance { margin-top: 10px; padding: 9px 10px; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.provenance b { color: var(--text); }
+.provenance a { color: #58a6ff; }
+.display-control { margin-top: 7px; font-size: 12px; }
+.display-control .row { margin-bottom: 2px; }
+.display-control input[type="range"] { width: 100%; }
+.editor {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  touch-action: none;
+  cursor: default;
+  display: block;
+}
+input[type="range"] { accent-color: var(--blue); }
+.result { margin-top: 10px; font-size: 13px; }
+.result table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+.result td { padding: 2px 4px; border-bottom: 1px solid var(--border); font-size: 12px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; background: #21262d; border: 1px solid var(--border); font-size: 12px; }
+/* A badge that is also a control (the marker-gene legend toggles). Without this
+   the generic `button` rule wins on padding and font and the pill stops looking
+   like its non-interactive siblings sitting next to it. */
+button.badge {
+  padding: 2px 8px; font-size: 12px; line-height: 1.5; color: var(--text);
+  background: #21262d; border-radius: 10px;
+}
+button.badge:hover { filter: brightness(1.25); }
+a.dl { color: var(--blue); text-decoration: none; display: block; margin: 4px 0; }
+
+/* download chip: an inline affordance anchored to the figure or table whose
+   file it saves, as opposed to a.dl which stacks in the deliverables block. */
+.dlchips { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+/* heading + its download pills on one line; slightly wider gap than a
+   bare chip group so the pill reads as attached to the title, not to it. */
+.titlerow { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+a.dlchip {
+  display: inline-flex; align-items: center;
+  padding: 3px 12px; border: 1px solid var(--border); border-radius: 999px;
+  background: #11161d; color: var(--blue); text-decoration: none;
+  font-size: 12px; line-height: 1.7; white-space: nowrap;
+}
+a.dlchip:hover { background: #182029; border-color: #3d6ea8; }
+a.dlchip:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.kbd { font-family: monospace; background:#21262d; border:1px solid var(--border); border-radius:4px; padding:0 5px; }
+
+/* ---------- step router ---------- */
+.rail {
+  width: 180px; flex: 0 0 180px; background: #0b0f14;
+  border-right: 1px solid var(--border); padding: 14px 10px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.brand { font-size: 13px; font-weight: 600; margin: 2px 6px 12px; color: var(--text); }
+.railstep {
+  display: flex; align-items: center; gap: 8px; text-align: left;
+  background: transparent; border: 1px solid transparent; border-radius: 6px;
+  padding: 8px 10px; color: var(--muted); font-size: 13px;
+}
+.railstep .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; font-size: 11px;
+  background: #21262d; border: 1px solid var(--border); flex: 0 0 18px;
+}
+.railstep.active { background: #161b22; border-color: var(--blue); color: var(--text); }
+.railstep.active .num { background: var(--blue); border-color: var(--blue); color: #fff; }
+.railstep.done { color: var(--text); }
+.railstep.done .num { background: var(--cyan); border-color: var(--cyan); color: #06120f; }
+.railstep:disabled { opacity: .45; cursor: not-allowed; }
+.railjob { margin-top: auto; padding: 8px 6px; border-top: 1px solid var(--border); }
+.content { flex: 1; display: flex; min-width: 0; }
+
+.log {
+  width: 100%; height: 100%; margin: 0; overflow: auto; font-size: 12px;
+  color: var(--muted); background: #000; border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; white-space: pre-wrap;
+}
+table.jobs { width: 100%; border-collapse: collapse; }
+table.jobs td { padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 13px; }
+table.jobs th {
+  padding: 6px 8px; border-bottom: 1px solid var(--border);
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
+}
+/* The step-6 alignment record: label left, value right, one row each. A wrapped
+   badge row was fine when it sat under a wide figure and is not in a 320px
+   column, where badges reflow into a ragged block that is hard to scan. */
+.alignrec { font-size: 12px; }
+.alignrec > div {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 10px; padding: 4px 0; border-bottom: 1px solid var(--border);
+}
+.alignrec > div:last-child { border-bottom: none; }
+.alignrec span { color: var(--muted); white-space: nowrap; }
+.alignrec b { color: var(--text); font-weight: 600; text-align: right; }
+
+/* Inline "?" beside a sidebar heading. Prose that is worth reading once and then
+   never again used to sit permanently above the control it described, pushing the
+   controls themselves down the panel. It lives in here instead.
+
+   The panel is `position: fixed` and placed by HelpTip in JS. It cannot be an
+   absolutely-positioned child: the sidebar scrolls, so its overflow clips on BOTH
+   axes and the tip was being cut off at the 320px edge. Fixed positioning takes
+   it out of that formatting context so it can lie over the canvas. Nothing
+   between it and the viewport sets transform/filter/will-change, which would
+   otherwise make `fixed` resolve against that ancestor instead. */
+.helptip {
+  position: relative; display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 14px; height: 14px; margin-left: 6px; vertical-align: middle;
+  border: 1px solid var(--border); border-radius: 50%;
+  font-size: 10px; font-weight: 600; line-height: 1;
+  text-transform: none; letter-spacing: 0;
+  color: var(--muted); cursor: help; user-select: none;
+}
+.helptip:hover, .helptip:focus-visible {
+  color: var(--text); border-color: var(--blue); outline: none;
+}
+.helptip-body {
+  position: fixed; z-index: 60;
+  width: 340px; padding: 10px 12px;
+  background: #11161d; border: 1px solid var(--border); border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .5);
+  /* undo the uppercase small-caps label styling h2 imposes on its children */
+  font-size: 12px; font-weight: 400; line-height: 1.5;
+  text-transform: none; letter-spacing: 0; text-align: left;
+  color: var(--text); white-space: normal;
+}
+.helptip-body p { margin: 0 0 7px; }
+.helptip-body p:last-child { margin: 0; }
+.helptip-body b { color: var(--text); font-weight: 600; }
+
+/* Sortable column header. The button carries the click target and the keyboard
+   focus; it is stripped back to look exactly like the plain <th> text it
+   replaces, since the global button rule gives every button a chrome box. */
+table.jobs th button.sortth {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: 0; border-radius: 0; padding: 0; margin: 0;
+  font: inherit; color: inherit;
+  text-transform: inherit; letter-spacing: inherit;
+  cursor: pointer;
+}
+table.jobs th button.sortth:hover { border-color: transparent; color: var(--text); }
+table.jobs th button.sortth:focus-visible {
+  outline: 2px solid var(--blue); outline-offset: 2px;
+}
+/* The neutral marker stays faint so eight of them do not compete with the one
+   column actually doing the sorting. */
+table.jobs th .sortarrow { font-size: 9px; opacity: .3; }
+table.jobs th button.sortth:hover .sortarrow { opacity: .7; }
+table.jobs th[aria-sort]:not([aria-sort="none"]) { color: var(--text); }
+table.jobs th[aria-sort]:not([aria-sort="none"]) .sortarrow { opacity: 1; }
+
+tr.jobrow { cursor: pointer; }
+tr.jobrow:hover td { background: #161b22; }
+input[type="text"] { background:#21262d; border:1px solid var(--border); border-radius:6px; color:var(--text); padding:6px 10px; }
+
+/* orientation preview: fixed container, image rotates via CSS (no reflow).
+   image sized to fill most of the stage while keeping headroom for rotation. */
+.orient-stage {
+  position: relative; flex: 1; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.orient-img {
+  max-width: 82%; max-height: 82%; object-fit: contain;
+  transform-origin: center center; will-change: transform;
+  image-rendering: auto; user-select: none;
+}
+/* fixed screen-space crosshair (does NOT rotate with the image) to judge level */
+.orient-stage.guides::before,
+.orient-stage.guides::after {
+  content: ""; position: absolute; pointer-events: none; z-index: 2;
+  border: 0 dashed rgba(255, 255, 255, 0.35);
+}
+.orient-stage.guides::before { left: 0; right: 0; top: 50%; border-top-width: 1px; }
+.orient-stage.guides::after { top: 0; bottom: 0; left: 50%; border-left-width: 1px; }
+.ap-stage { display: flex; gap: 12px; align-items: stretch; justify-content: center; padding: 12px; }
+.stage-box { margin: 0; flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.stage-box .orient-stage { height: 82vh; }
+.stage-box figcaption { text-align: center; padding-top: 6px; }
+
+/* hex-bin QC option groups: radio + short label + inline consequence note.
+   The note is what makes the choice meaningful, so it shares the row rather
+   than hiding in a tooltip; it wraps under the label on narrow panels. */
+fieldset.hexopts {
+  border: 1px solid var(--border); border-radius: 8px;
+  margin: 0 0 10px; padding: 8px 12px 10px; max-width: 700px;
+}
+fieldset.hexopts legend {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .04em; padding: 0 4px;
+}
+fieldset.hexopts[disabled] { opacity: .55; }
+label.hexopt {
+  display: grid; grid-template-columns: auto 72px 1fr; align-items: baseline;
+  gap: 8px; padding: 4px 2px; cursor: pointer;
+}
+fieldset.hexopts[disabled] label.hexopt { cursor: default; }
+label.hexopt + label.hexopt { border-top: 1px solid #1c2530; }
+label.hexopt input { accent-color: var(--blue); margin: 0; align-self: center; }
+.hexopt-label { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.hexopt-note { font-size: 12px; color: var(--muted); line-height: 1.45; }
+@media (max-width: 720px) {
+  label.hexopt { grid-template-columns: auto 1fr; }
+  .hexopt-note { grid-column: 2; }
+}
+
+/* Resume list: bulk actions over the selection, and per-row download/delete.
+   Delete is the one destructive control on the page, so it alone is red. */
+.jobtools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.jobtools .muted { margin-right: auto; font-size: 12px; }
+button.danger { color: #f85149; border-color: #6e2b2b; }
+button.danger:hover:not(:disabled) { background: #2d1416; border-color: #f85149; }
+button.rowbtn { padding: 2px 7px; font-size: 13px; line-height: 1.2; }
+table.jobs td.rowactions { white-space: nowrap; width: 1px; }
+button.rowbtn + button.rowbtn { margin-left: 4px; }
+.jobnotice { font-size: 12px; padding: 7px 10px; border-radius: 6px; margin-bottom: 8px;
+             border: 1px solid var(--border); }
+.jobnotice.warn { color: #ffe17a; border-color: #6b5a1e; }
+.jobnotice.error { color: #f85149; border-color: #6e2b2b; }
+.jobnotice.ok { color: var(--muted); }
+table.jobs input[type="checkbox"] { cursor: pointer; }
+table.jobs td.notes { min-width: 180px; }
+table.jobs td.notes input {
+  width: 100%; box-sizing: border-box; background: transparent;
+  border: 1px solid transparent; color: var(--text); font-size: 12px; padding: 3px 6px;
+}
+table.jobs td.notes input:hover { border-color: var(--border); }
+table.jobs td.notes input:focus { border-color: var(--accent, #2f81f7); outline: none; }
+table.jobs td.notes input.error { border-color: #f85149; }
+table.jobs td.jobid { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; white-space: nowrap; }
+.jobsnote { font-size: 12px; margin: 10px 0 0; padding-left: 18px; list-style: disc; }
+.jobsnote > li + li { margin-top: 4px; }
+.jobsnote code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); word-break: break-all; }

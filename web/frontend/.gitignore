@@ -1,0 +1,5 @@
+node_modules/
+.vite/
+*.log
+# dist/ is committed on purpose: users run the prebuilt page and never need
+# Node. Rebuild and commit it with any change to src/ (tests/test_frontend_dist.mjs).

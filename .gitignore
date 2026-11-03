@@ -1,0 +1,52 @@
+# --- generated outputs (reproducible; not versioned) ---
+m1_output/
+m3_output/
+m4_output/
+archive/outputs/
+
+# --- large input data (not versioned) ---
+deepslice_input/
+training_data/
+ap_pick_guided/
+
+# --- python ---
+__pycache__/
+*.pyc
+*.pyo
+.tmp-tests/
+work/
+
+# --- packaging / logs / scratch artifacts ---
+*.zip
+*.tar.gz
+*.log
+*.pdf
+runtime_log.csv
+*.png
+pipeline_output/
+
+# --- gpu validation artifacts (large, reproducible) ---
+_gpu_validate/
+
+# --- host-local region maps and withheld keys (never commit) ---
+# They name your own acquisitions; see config.py.
+data/metadata/excluded_regions.txt
+data/metadata/*.local.json
+
+# --- ABC atlas source cache (~8.5 GB, host-local, reproducible download) ---
+data/abc_source/
+# Positive-control set: Allen MERFISH sections (CC BY-NC 4.0), rebuilt by
+# scripts/data/build_positive_control.py. Only the README is tracked.
+data/positive_control/*
+!data/positive_control/README.md
+
+# --- Allen reference tables: built by each user, never committed (CC BY-NC 4.0) ---
+data/reference/allen_abc_*_by_gene.csv
+data/reference/structure_tree_safe_2017.csv
+
+# S3 experiments cached by web/s3source.py
+data/s3_cache/
+
+# a local virtualenv made by the README install route
+.venv/
+.venv-allen-reference/

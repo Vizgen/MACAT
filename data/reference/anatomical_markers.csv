@@ -1,0 +1,78 @@
+region_acronym,region_name,gene,note
+Isocortex,Isocortex,Slc17a7,pan-excitatory cortical (Vglut1)
+Isocortex,Isocortex,Cux2,upper layers L2/3-L4
+Isocortex,Isocortex,Rorb,layer 4
+Isocortex,Isocortex,Fezf2,layer 5 subcerebral
+Isocortex,Isocortex,Bcl11b,layer 5 (Ctip2)
+Isocortex,Isocortex,Satb2,callosal projection neurons
+Isocortex,Isocortex,Tbr1,layer 6
+Isocortex,Isocortex,Foxp2,layer 6 corticothalamic
+OLF,Olfactory areas,Eomes,mitral/tufted lineage (Tbr2)
+OLF,Olfactory areas,Sln,olfactory bulb enriched
+OLF,Olfactory areas,Nrgn,piriform/olfactory cortex
+OLF,Olfactory areas,Calb2,periglomerular interneurons
+OLF,Olfactory areas,Trpc4,olfactory areas enriched
+HPF,Hippocampal formation,Prox1,dentate gyrus granule cells
+HPF,Hippocampal formation,Fibcd1,CA1 pyramidal
+HPF,Hippocampal formation,Neurod6,hippocampal excitatory
+HPF,Hippocampal formation,C1ql2,dentate gyrus
+HPF,Hippocampal formation,Wfs1,CA1 superficial
+HPF,Hippocampal formation,Dkk3,CA2/CA3 enriched
+HPF,Hippocampal formation,Dcn,subiculum/fissure enriched
+CTXsp,Cortical subplate,Lhx9,amygdalar nuclei
+CTXsp,Cortical subplate,Cplx3,subplate / layer 6b
+CTXsp,Cortical subplate,Synpr,claustrum enriched
+CTXsp,Cortical subplate,Rspo2,basolateral amygdala
+STR,Striatum,Ppp1r1b,medium spiny neurons (DARPP-32)
+STR,Striatum,Drd1,direct pathway MSN
+STR,Striatum,Drd2,indirect pathway MSN
+STR,Striatum,Penk,indirect pathway MSN
+STR,Striatum,Adora2a,indirect pathway MSN
+STR,Striatum,Gpr88,striatal pan-MSN
+PAL,Pallidum,Lhx6,pallidal / MGE lineage
+PAL,Pallidum,Lhx8,cholinergic pallidal
+PAL,Pallidum,Nkx2-1,MGE-derived pallidal
+PAL,Pallidum,Chat,cholinergic basal forebrain
+PAL,Pallidum,Pvalb,globus pallidus neurons
+TH,Thalamus,Tcf7l2,pan-thalamic
+TH,Thalamus,Slc17a6,thalamic excitatory (Vglut2)
+TH,Thalamus,Prkcd,thalamic nuclei
+TH,Thalamus,Ntng1,dorsal thalamus
+TH,Thalamus,Ramp3,thalamic enriched
+TH,Thalamus,Shox2,thalamic excitatory
+TH,Thalamus,Lef1,thalamic development / adult
+HY,Hypothalamus,Otp,hypothalamic lineage
+HY,Hypothalamus,Agrp,arcuate nucleus
+HY,Hypothalamus,Pomc,arcuate nucleus
+HY,Hypothalamus,Hcrt,lateral hypothalamus orexin
+HY,Hypothalamus,Gal,hypothalamic galanin
+HY,Hypothalamus,Trh,paraventricular nucleus
+MB,Midbrain,Tfap2b,midbrain / dorsal
+MB,Midbrain,Otx2,midbrain identity
+MB,Midbrain,En1,midbrain-hindbrain
+MB,Midbrain,Pax7,superior colliculus / tectum
+MB,Midbrain,Nr4a2,dopaminergic SNc/VTA
+MB,Midbrain,Ddc,monoaminergic
+MB,Midbrain,Pitx2,subthalamic / midbrain
+P,Pons,Phox2b,hindbrain visceral motor
+P,Pons,Tph2,raphe serotonergic
+P,Pons,Slc6a5,glycinergic hindbrain
+P,Pons,Barhl1,pontine / cerebellar lineage
+MY,Medulla,Slc6a5,glycinergic hindbrain
+MY,Medulla,Hoxb5,posterior hindbrain identity
+MY,Medulla,Phox2b,visceral motor nuclei
+MY,Medulla,Slc6a4,serotonergic raphe
+MY,Medulla,Gata3,medullary lineage
+MY,Medulla,Dbh,noradrenergic
+CB,Cerebellum,Gabra6,granule cells
+CB,Cerebellum,Calb1,Purkinje cells
+CB,Cerebellum,Car8,Purkinje cells
+CB,Cerebellum,Zic1,cerebellar lineage
+VS,Ventricular systems,Aqp1,choroid plexus
+VS,Ventricular systems,Clic6,choroid plexus
+VS,Ventricular systems,Prlr,choroid plexus
+fiber tracts,Fiber tracts,Mog,mature oligodendrocyte
+fiber tracts,Fiber tracts,Mal,myelin
+fiber tracts,Fiber tracts,Opalin,myelinating oligodendrocyte
+fiber tracts,Fiber tracts,Sox10,oligodendrocyte lineage
+fiber tracts,Fiber tracts,St18,mature oligodendrocyte

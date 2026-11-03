@@ -1,0 +1,20 @@
+# Packages for BUILDING the Allen reference tables (scripts/data/), not for
+# running the app: the same pins as environment_allen_reference.yml, for uv or
+# pip users. Kept out of requirements-web.txt so the app's environment does not
+# grow by two packages (anndata, h5py) only these scripts need.
+#
+#     uv venv --python 3.10 .venv-allen-reference
+#     uv pip install --python .venv-allen-reference -r requirements-allen-reference.txt
+#
+# or, with Python 3.10 already installed:
+#
+#     python3.10 -m venv .venv-allen-reference
+#     .venv-allen-reference/bin/pip install -r requirements-allen-reference.txt
+#
+# Python 3.10, as the 2026-10-19 rebuild that reproduced the published checksums
+# (data/reference/README.md) was verified with.
+anndata==0.11.4
+h5py==3.16.0
+numpy==2.2.6
+pandas==2.3.3
+scipy==1.15.2
