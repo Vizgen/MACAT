@@ -13,7 +13,8 @@ let it register automatically, refine the fit by eye, and download the results.
 
 *The six steps, from creating a job to reviewing results
 ([MP4, sharper](media/MACAT_tutorial_EN.mp4)). Tutorial movie powered by
-[screen-recording-gif-tutorial](https://github.com/greengarden0925/screen-recording-gif-tutorial).*
+[screen-recording-gif-tutorial](https://github.com/greengarden0925/screen-recording-gif-tutorial).
+Recorded from MACAT v0.7.0.*
 
 **It supports:**
 
