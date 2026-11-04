@@ -9,6 +9,12 @@ Coordinate Framework (CCF) and labels every cell with its Allen region. It runs
 as a local web app: you pick a section, confirm its orientation and atlas level,
 let it register automatically, refine the fit by eye, and download the results.
 
+![MACAT tutorial: the six steps from creating a job to reviewing results, for a coronal, a sagittal and a hemisection](media/MACAT_tutorial_EN.gif)
+
+*The six steps, from creating a job to reviewing results
+([MP4, sharper](media/MACAT_tutorial_EN.mp4)). Tutorial movie powered by
+[screen-recording-gif-tutorial](https://github.com/greengarden0925/screen-recording-gif-tutorial).*
+
 **It supports:**
 
 - coronal and sagittal sections, whole sections and coronal hemisections;
