@@ -32,10 +32,14 @@ Recorded from MACAT v0.7.0.*
 
 ## Install
 
-**Requirements:** Python 3.11, about 2 GB of disk (plus the Allen atlas, about
-600 MB, downloaded on first use) and 8 GB of RAM. No GPU and no Node.js.
-Building the Allen reference files once (below) needs more: about 10 GB of
-temporary disk and 22 GB of RAM.
+**Requirements:**
+
+- **To run MACAT:** Python 3.11, about 2 GB of disk for MACAT and its packages,
+  plus about 600 MB for the Allen atlas (downloaded on first use), and 8 GB of
+  RAM. No GPU and no Node.js.
+- **Once, to build the Allen reference files** (below): a 9.2 GB download,
+  about 17 GB of free disk while it runs, and 22 GB of RAM. The finished files
+  take under 10 MB; the download can be deleted afterwards.
 
 **Tested on Linux, Windows and macOS (Apple Silicon).**
 
@@ -87,8 +91,8 @@ pip install -r requirements-web.txt
 MACAT compares your sections with tables derived from the Allen Brain Cell
 Atlas. Their licence (CC BY-NC 4.0) permits noncommercial use only, so they are
 not shipped with MACAT: you build them yourself from Allen's public release. It
-downloads about 9.2 GB, needs about 22 GB of RAM at its peak, and takes about
-15 minutes. Until they are built, MACAT warns at startup and registration stops
+downloads about 9.2 GB, needs about 17 GB of free disk and 22 GB of RAM while
+it runs, and takes about 15 minutes. The finished files take under 10 MB. Until they are built, MACAT warns at startup and registration stops
 with a message naming the missing file.
 
 With conda:

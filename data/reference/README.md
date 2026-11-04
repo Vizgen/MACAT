@@ -46,7 +46,10 @@ environment variables change those locations:
 Re-running is safe: finished downloads are skipped and an interrupted one
 resumes. Measured on a Linux server: about 10 minutes of download over parallel
 connections, then under a minute per step, with a peak of **22 GB of RAM** while
-dropping the blank probes (12.8 GB and 2.5 GB for the two builds).
+dropping the blank probes (12.8 GB and 2.5 GB for the two builds). Disk peaks
+at about **17 GB** (the 9.2 GB download plus a 7.5 GB copy without the blank
+probes); the finished tables take under 10 MB, and `data/abc_source/` can be
+deleted afterwards.
 
 The same environment also builds the positive-control set
 (`python scripts/data/build_positive_control.py`; see
