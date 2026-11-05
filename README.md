@@ -1,6 +1,8 @@
 # MACAT: MERFISH Allen CCF Alignment Tool
 
 What changed in each version: [`CHANGELOG.md`](CHANGELOG.md).
+A step-by-step guide with screenshots: [`docs/usage_guide.html`](docs/usage_guide.html)
+(download it and open it in a browser; GitHub shows HTML files as source).
 
 ## Scope
 
@@ -244,6 +246,8 @@ columns: [`docs/interpreting_results.md`](docs/interpreting_results.md).
 
 ## More documentation
 
+- [`docs/usage_guide.html`](docs/usage_guide.html): the step-by-step usage
+  guide, with screenshots (open it in a browser).
 - [`docs/architecture.md`](docs/architecture.md): how the tool is put together.
 - [`docs/troubleshooting.md`](docs/troubleshooting.md): problems and fixes.
 - [`docs/allen_annotated_data.md`](docs/allen_annotated_data.md): downloading the
